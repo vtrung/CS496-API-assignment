@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <title>CS496 - Ving Trung</title>
+   <link rel="stylesheet" type="text/css" href="/static/style.css">
+  </head>
+  <body>
+    <div id="container">
+      <div>
+        <h1>Update User</h1>
+        <a href="{{url_for('index')}}">Home</a>
+      </div>
+
+      <div>
+        <div class="pagetitle">
+          <h1>{{user.name}}</h1>
+        </div>
+        <div id="main">
+          <form method="post" action="{{ url_for('userformupdate') }}">
+            <input class="hide" type="text" name="key" value="{{key}}">
+            <label for="name">Name:</label>
+            <input type="text" name="name" value="{{user.name}}"><br />
+            <label for="bday">Birth Date:</label>
+            <input type="date" name="bday" value="{{user.birthdate}}"><br />
+            <label for="member">UserType:</label><br>
+
+            <input type="checkbox" name="student" value="student" {% if user.student %}
+              checked
+            {% endif %} > Student<br>
+            <input type="checkbox" name="teacher" value="teacher" {% if user.teacher %}
+              checked
+            {% endif %}> Teacher<br>
+            <input type="checkbox" name="ta" value="ta" {% if user.ta %}
+              checked
+            {% endif %}> TA<br>
+            <label for="gender">Gender:</label>
+            <input type="radio" name="gender" value="male" {% if user.gender=='male' %}
+              checked
+            {% endif %}> Male
+            <input type="radio" name="gender" value="female"{% if user.gender=='female' %}
+              checked
+            {% endif %}> Female
+            <input type="radio" name="gender" value="other"{% if user.gender=='other' %}
+              checked
+            {% endif %}> Other<br>
+            Skill Level: 0
+            <input type="range" name="skill" min="0" max="10" value="{{user.skill}}">
+            10<br>
+            <input type="submit">
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

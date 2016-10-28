@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <title>CS496 - Ving Trung</title>
+   <link rel="stylesheet" type="text/css" href="/static/style.css">
+  </head>
+  <body>
+    <div id="container">
+      <div>
+        <h1>CS496 - Ving Trung</h1>
+      </div>
+      <div>
+        <p>{{webstring}}</p>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Birthdate</th>
+            <th>Gender</th>
+            <th>Skill Level</th>
+            <th>Student</th>
+            <th>Teacher</th>
+            <th>TA</th>
+          </tr>
+          {% for user in query %}
+            <tr>
+              <td>{{ user.name }}</td>
+              <td>{{ user.birthdate }}</td>
+              <td>{{ user.gender }}</td>
+              <td>{{ user.skill }} </td>
+              <td>{% if user.student %}
+                &#10004;
+              {% endif %} </td>
+              <td>{% if user.teacher %}
+                &#10004;
+              {% endif %} </td>
+              <td>{% if user.ta %}
+                &#10004;
+              {% endif %} </td>
+              <td>
+                <a href="{{url_for('userupdate')  + '?user=' + user.key.urlsafe()}}">Edit</a>
+              </td>
+              <td>
+                <form method="post" action="{{ url_for('userformdelete')}}">
+                  <input class="hide" type="text" name="key" value="{{ user.key.urlsafe() }}">
+                  <input type="submit" value="Delete">
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+      <div>
+        <div class="pagetitle">
+          <h1>Create a new User</h1>
+        </div>
+        <div id="main">
+          <form method="post" action="{{ url_for('userformsubmit') }}">
+            <label for="name">Name:</label>
+            <input type="text" name="name"><br />
+            <label for="bday">Birth Date:</label>
+            <input type="date" name="bday"><br />
+            <label for="member">Member:</label><br>
+            <input type="checkbox" name="student" value="student"> Student<br>
+            <input type="checkbox" name="teacher" value="teacher"> Teacher<br>
+            <input type="checkbox" name="ta" value="ta"> TA<br>
+            <label for="gender">Gender:</label>
+            <input type="radio" name="gender" value="male" checked> Male
+            <input type="radio" name="gender" value="female"> Female
+            <input type="radio" name="gender" value="other"> Other<br>
+            Skill Level: 0
+            <input type="range" name="skill" min="0" max="10">
+            10<br>
+            <input type="submit">
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>
