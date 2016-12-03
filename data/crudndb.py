@@ -16,14 +16,21 @@ def GetPerson(username):
         return False
     return person[0]
 
-def CreatePerson(username, name, gender, age):
+def VerifyPerson(username, password):
+    person = Person.query(Person.Username == username, Person.Password == password).fetch()
+    if len(person) > 0:
+        return person[0]
+    return False
+
+def CreatePerson(username, password):
+    print "test1"
     if PersonExist(username):
         return False
+    print "creating person"
     person = Person()
     person.Username = username
-    person.Name = name
-    person.Gender = gender
-    person.Age = int(age)
+    person.Password = password
+    print "after age"
     person.put()
     return person
 
@@ -45,6 +52,10 @@ def DeletePerson(username):
     p = person[0]
     k = p.put()
     return k.delete()
+
+def GetAllPerson():
+    query = Person.query()
+    return query
 
 def GetPeopleByEvent():
     query = Team.query()
@@ -152,6 +163,7 @@ def DeleteGames(event):
     for game in games:
         k = game.put()
         k.delete()
+    return games
 
 def UpdateGame(event, name, description):
     print "updating game"
@@ -163,3 +175,46 @@ def UpdateGame(event, name, description):
     game.Description = description
     game.put()
     return game
+
+## EventPerson
+
+def CreateEventPerson(username, event, date, location, description):
+    result = CreateEvent(event, date, location, description)
+    if not result:
+        return False
+    return AddEventPerson(username, event)
+
+def GetAllEventPerson(username):
+    elist = []
+    result = EventPerson.query(EventPerson.Username == username).fetch()
+    if not result:
+        return elist
+    for res in result:
+        elist.append(res.Event)
+    return elists
+
+def GetAllEventByPerson(username):
+    elist = GetAllEventByPerson(username)
+    result = Event.query(Event.Name.IN(elist)).fetch()
+    if not result:
+        return False
+    return result
+
+def GetEventPerson(username, event):
+    result = EventPerson.query(EventPerson.Username == username, EventPerson.Event == event).fetch()
+    return result[0]
+
+def AddEventPerson(username, event):
+    ep = EventPerson()
+    ep.Username = username
+    ep.Event = event
+    ep.put()
+    return result
+
+def DeleteEventPerson(username, event):
+    result = GetEventPerson(username, event)
+    if not result:
+        return False
+    k = result.put()
+    k.delete()
+    return result

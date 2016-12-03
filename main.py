@@ -50,17 +50,8 @@ def apiGetPerson(username):
 @app.route('/api/person', methods=['POST'])
 def apiCreatePerson():
     try:
-        person = CreatePerson(request.form['username'], request.form['name'], request.form['gender'], request.form['age'])
+        person = CreatePerson(request.form['username'], request.form['password'])
         return json.dumps(person.to_dict())
-    except:
-        return "failed"
-
-# update person
-@app.route('/api/person/<username>', methods=['PUT'])
-def apiPutPerson(username):
-    try:
-        person = UpdatePerson(username, request.form['name'], request.form['gender'], request.form['age'])
-        return "success"
     except:
         return "failed"
 
@@ -74,6 +65,15 @@ def apiDeletePerson(username):
         return "failed"
     except:
         return "failed"
+
+@app.route('/api/verify', methods=['POST'])
+def apiVerifyPerson():
+    try:
+        person = VerifyPerson(request.form.get('username'), request.form.get('password'))
+        return json.dumps(person.to_dict())
+    except:
+        return "failed"
+
 
 ### API-EVENTS ###
 
@@ -120,6 +120,33 @@ def apiDeleteEvent(name):
         return "failed"
     except:
         return "failed"
+
+@app.route('/api/eventperson', methods=['POST'])
+def apiCreateEventPerson():
+    try:
+        print "TEST CreateEvent"
+        a = CreateEventPerson(request.form['username'], request.form['name'] , request.form['time'] , request.form['loc'] , request.form['des'])
+        return json.dumps(a.to_dict())
+    except:
+        return "failed"
+
+
+@app.route('/api/addperson/<event>', methods=['POST'])
+def apiAddEventPerson(event):
+    try:
+        result = AddEventPerson(request.form['user'], event)
+        return "success"
+    except:
+        return "false"
+
+@app.route('/api/addperson/<event>/<user>', methods=['DELETE'])
+def apiDeleteEventPerson(event, user):
+    try:
+        DeleteEventPerson(user, event)
+        return "success"
+    except:
+        return "false"
+
 
 ### API-GAME ###
 

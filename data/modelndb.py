@@ -26,6 +26,9 @@ class Game(ndb.Model):
 
 class Person(ndb.Model):
     Username = ndb.StringProperty()
+    Password = ndb.StringProperty()
     Name = ndb.StringProperty()
-    Gender = ndb.StringProperty()
-    Age = ndb.IntegerProperty()
+
+class EventPerson(ndb.Model):
+    Username = ndb.StringProperty()
+    Event = ndb.StringProperty()
